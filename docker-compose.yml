@@ -1,0 +1,5 @@
+services:
+  laravel:
+    image: laravel
+    stdin_open: true
+    tty: true

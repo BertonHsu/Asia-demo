@@ -1,0 +1,90 @@
+openapi: 3.0.0
+info:
+  title: Asia demo
+  description: Asia demo api docs
+  version: 0.0.1
+servers:
+  - url: http://localhost:8000/api
+    description: Test server
+tags:
+  - name: currency
+    description: 幣值相關
+paths:
+  /currency/exchange:
+    get:
+      summary: 幣值轉換
+      description: 轉換輸入的幣值
+      operationId: get-currency-exchange
+      parameters:
+        - in: query
+          name: source
+          description: |-
+            幣別
+             - 台幣: TWD
+             - 日幣: JPY
+             - 美金: USD
+          required: true
+          schema:
+            type: string
+            example: 'TWD'
+        - in: query
+          name: target
+          description: |-
+            幣別
+             - 台幣: TWD
+             - 日幣: JPY
+             - 美金: USD
+          required: true
+          schema:
+            type: string
+            example: 'USD'
+        - in: path
+          name: amount
+          description: 金額
+          required: true
+          schema:
+            type: string
+            example: '1234'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: Index response
+                description: 轉換結果
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    description: 轉換結果訊息
+                    example: success
+                  amount:
+                    type: string
+                    description: 幣值轉換後金額
+                    example: '123,45.67'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                title: Invalid Parameters Response
+                description: 驗證有誤
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: 帶入內容驗證失敗
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                title: Internal Server Error Response
+                description: 非預期的 500 錯誤
+                properties:
+                  message:
+                    type: string
+                    default: 系統忙碌中，請稍後再試
+      tags:
+        - currency
